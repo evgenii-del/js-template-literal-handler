@@ -7,7 +7,36 @@ export const level = 1;
   Should work with arbitrary function expressions passed.
   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
 */
-export function transform() {}
+function formatArgs(param) {
+  let newParam;
+
+  if (typeof param === 'number') {
+    newParam = param * 2 + 3;
+  } else if (typeof param === 'string') {
+    newParam = param.toLowerCase();
+  } else if (typeof param === 'function') {
+    newParam = param.name.toUpperCase();
+  } else if (typeof param === 'object') {
+    newParam = JSON.stringify(param);
+  }
+
+  return newParam;
+}
+
+function transform(strings, ...args) {
+  let result = [];
+
+  for (let i = 0; i <= strings.length; i++) {
+    if (strings[i]) {
+      result.push(strings[i]);
+    }
+    if (args[i]) {
+      result.push(formatArgs(args[i]));
+    }
+  }
+
+  return result.join('');
+}
 
 /*
   Level 1: expects no parameters. Returns its own name capitalized.
